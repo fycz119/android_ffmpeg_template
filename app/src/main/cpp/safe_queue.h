@@ -1,9 +1,5 @@
-//
-// Created by Jackie on 2023/8/11.
-//
-
-#ifndef MY_APPLICATION_SAFE_QUEUE_H
-#define MY_APPLICATION_SAFE_QUEUE_H
+#ifndef NE_PLAYER_2_SAFE_QUEUE_H
+#define NE_PLAYER_2_SAFE_QUEUE_H
 
 #include <queue>
 #include <pthread.h>
@@ -16,7 +12,7 @@ class SafeQueue {
 
 public:
     SafeQueue() {
-        pthread_mutex_init(&mutex, 0);
+        pthread_mutex_init(&mutex, 0);//动态初始化
         pthread_cond_init(&cond, 0);
     }
 
@@ -137,4 +133,4 @@ private:
 };
 
 
-#endif //MY_APPLICATION_SAFE_QUEUE_H
+#endif //NE_PLAYER_2_SAFE_QUEUE_H

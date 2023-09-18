@@ -1,6 +1,3 @@
-//
-// Created by Jackie on 2023/8/7.
-//
 #include "JavaCallHelper.h"
 
 JavaCallHelper::JavaCallHelper(JavaVM *javaVM_, JNIEnv *env_, jobject instance_) {
@@ -13,6 +10,7 @@ JavaCallHelper::JavaCallHelper(JavaVM *javaVM_, JNIEnv *env_, jobject instance_)
 //    cd 进入 class所在的目录 执行： javap -s 全限定名,查看输出的 descriptor
 //    xx\app\build\intermediates\classes\debug>javap -s com.netease.jnitest.Helper
     jmd_prepared = env->GetMethodID(clazz, "onPrepared", "()V");
+    jmd_onError = env->GetMethodID(clazz, "onError", "(I)V");
 
 }
 
@@ -31,19 +29,21 @@ void JavaCallHelper::onPrepared(int threadMode) {
         //当前子线程的 JNIEnv
         JNIEnv *env_child;
         javaVM->AttachCurrentThread(&env_child, 0);
-
         env_child->CallVoidMethod(instance, jmd_prepared);
         javaVM->DetachCurrentThread();
     }
 }
 
-void JavaCallHelper::onError(int ret) {
-    if (ret < 0) {
+void JavaCallHelper::onError(int threadMode, int errorCode) {
+    if (threadMode == THREAD_MAIN) {
+        //主线程
+        env->CallVoidMethod(instance, jmd_onError);
+    } else {
+        //子线程
+        //当前子线程的 JNIEnv
         JNIEnv *env_child;
         javaVM->AttachCurrentThread(&env_child, 0);
-        jclass clazz = env->GetObjectClass(instance);
-        jmd_prepared = env->GetMethodID(clazz, "onError", "()V");
-        env_child->CallVoidMethod(instance, jmd_prepared);
+        env_child->CallVoidMethod(instance, jmd_onError, errorCode);
         javaVM->DetachCurrentThread();
     }
 }

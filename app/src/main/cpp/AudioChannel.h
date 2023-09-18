@@ -1,23 +1,21 @@
-//
-// Created by Jackie on 2023/8/7.
-//
+#ifndef NE_PLAYER_1_AUDIOCHANNEL_H
+#define NE_PLAYER_1_AUDIOCHANNEL_H
 
-#ifndef MY_APPLICATION_AUDIOCHANNEL_H
-#define MY_APPLICATION_AUDIOCHANNEL_H
 
 #include "BaseChannel.h"
 
 class AudioChannel : public BaseChannel{
 public:
-    AudioChannel(int id);
+    AudioChannel(int id,AVCodecContext *codecContext);
 
     ~AudioChannel();
 
     void start();
 
     void stop();
+
+
 };
 
 
-
-#endif //MY_APPLICATION_AUDIOCHANNEL_H
+#endif //NE_PLAYER_1_AUDIOCHANNEL_H

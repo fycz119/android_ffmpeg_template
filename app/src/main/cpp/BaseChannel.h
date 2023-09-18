@@ -1,9 +1,5 @@
-//
-// Created by Jackie on 2023/8/7.
-//
-
-#ifndef MY_APPLICATION_BASECHANNEL_H
-#define MY_APPLICATION_BASECHANNEL_H
+#ifndef NE_PLAYER_1_BASECHANNEL_H
+#define NE_PLAYER_1_BASECHANNEL_H
 
 extern "C" {
 #include <libavcodec/avcodec.h>
@@ -17,7 +13,7 @@ extern "C" {
  */
 class BaseChannel {
 public:
-    BaseChannel(int id) : id(id) {
+    BaseChannel(int id, AVCodecContext *codecContext) : id(id), codecContext(codecContext) {
         packets.setReleaseCallback(releaseAVPacket);
         frames.setReleaseCallback(releaseAVFrame);
     }
@@ -51,13 +47,16 @@ public:
 
     //纯虚函数（抽象方法）
     virtual void start() = 0;
+
     virtual void stop() = 0;
 
 
     SafeQueue<AVPacket *> packets;
     SafeQueue<AVFrame *> frames;
     int id;
+    bool isPlaying = 0;
+    AVCodecContext *codecContext;
 };
 
 
-#endif //MY_APPLICATION_BASECHANNEL_H
+#endif //NE_PLAYER_1_BASECHANNEL_H

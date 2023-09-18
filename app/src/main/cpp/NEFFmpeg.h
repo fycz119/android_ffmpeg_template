@@ -1,9 +1,5 @@
-//
-// Created by Jackie on 2023/8/7.
-//
-
-#ifndef MY_APPLICATION_NEFFMPEG_H
-#define MY_APPLICATION_NEFFMPEG_H
+#ifndef NE_PLAYER_1_NEFFMPEG_H
+#define NE_PLAYER_1_NEFFMPEG_H
 
 
 #include "JavaCallHelper.h"
@@ -14,8 +10,9 @@
 #include <pthread.h>
 
 extern "C" {
-#include "libavformat/avformat.h"
+#include <libavformat/avformat.h>
 };
+
 
 class NEFFmpeg {
 public:
@@ -31,6 +28,8 @@ public:
 
     void _start();
 
+    void setRenderCallback(RenderCallback renderCallback);
+
 private:
     JavaCallHelper *javaCallHelper = 0;
     AudioChannel *audioChannel = 0;
@@ -40,7 +39,9 @@ private:
     pthread_t pid_start;
     bool isPlaying;
     AVFormatContext *formatContext = 0;
+    RenderCallback renderCallback;
+
 };
 
 
-#endif //MY_APPLICATION_NEFFMPEG_H
+#endif //NE_PLAYER_1_NEFFMPEG_H
