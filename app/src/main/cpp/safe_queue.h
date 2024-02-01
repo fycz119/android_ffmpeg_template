@@ -1,3 +1,7 @@
+//
+// Created by Administrator on 2019/8/12.
+//
+
 #ifndef NE_PLAYER_2_SAFE_QUEUE_H
 #define NE_PLAYER_2_SAFE_QUEUE_H
 

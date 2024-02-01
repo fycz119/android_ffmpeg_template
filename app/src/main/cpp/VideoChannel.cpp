@@ -1,3 +1,9 @@
+//
+// Created by Administrator on 2019/8/9.
+//
+
+
+
 #include "VideoChannel.h"
 
 VideoChannel::VideoChannel(int id, AVCodecContext *codecContext) : BaseChannel(id, codecContext) {}

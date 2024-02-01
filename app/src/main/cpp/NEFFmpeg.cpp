@@ -1,3 +1,9 @@
+//
+// Created by Administrator on 2019/8/9.
+//
+
+
+
 
 #include "NEFFmpeg.h"
 
@@ -61,6 +67,11 @@ void NEFFmpeg::_prepare() {
         ////        javaCallHelper jni 回调java方法
         ////        javaCallHelper->onError(ret);
         //          //可能java层需要根据errorCode来更新UI!
+        //          //2019.8.12 作业自行尝试实现
+        //TODO 作业:反射通知java
+        // 1 反射Java 属性（成员/静态）
+        // 2 反射Java 方法 （成员/静态）
+        // 3 子线程反射
         if (javaCallHelper) {
             javaCallHelper->onError(THREAD_CHILD, FFMPEG_CAN_NOT_OPEN_URL);
         }
@@ -86,6 +97,7 @@ void NEFFmpeg::_prepare() {
         AVCodec *codec = avcodec_find_decoder(codecParameters->codec_id);
         if (!codec) {
             LOGE("查找当前流的解码器失败");
+            //TODO 作业:反射通知java
             if (javaCallHelper) {
                 javaCallHelper->onError(THREAD_CHILD, FFMPEG_FIND_DECODER_FAIL);
             }
@@ -103,6 +115,7 @@ void NEFFmpeg::_prepare() {
         //7 设置解码器上下文的参数
         ret = avcodec_parameters_to_context(codecContext, codecParameters);
         if (ret < 0) {
+            //TODO 作业:反射通知java
             LOGE("设置解码器上下文的参数失败：%s", av_err2str(ret));
             if (javaCallHelper) {
                 javaCallHelper->onError(THREAD_CHILD, FFMPEG_CODEC_CONTEXT_PARAMETERS_FAIL);
@@ -112,6 +125,7 @@ void NEFFmpeg::_prepare() {
         //8 打开解码器
         ret = avcodec_open2(codecContext, codec, 0);
         if (ret) {
+            //TODO 作业:反射通知java
             LOGE("打开解码器失败：%s", av_err2str(ret));
             if (javaCallHelper) {
                 javaCallHelper->onError(THREAD_CHILD, FFMPEG_OPEN_DECODER_FAIL);
@@ -130,6 +144,7 @@ void NEFFmpeg::_prepare() {
     }//end for
     if (!audioChannel && !videoChannel) {
         //既没有音频也没有视频
+        //TODO 作业:反射通知java
         LOGE("没有音视频");
         if (javaCallHelper) {
             javaCallHelper->onError(THREAD_CHILD, FFMPEG_NOMEDIA);
@@ -193,6 +208,7 @@ void NEFFmpeg::_start() {
             //要考虑读完了，是否播完了的情况
             // TODO
         } else {
+            //TODO 作业:反射通知java
             LOGE("读取音视频数据包失败");
             if (javaCallHelper) {
                 javaCallHelper->onError(THREAD_CHILD, FFMPEG_READ_PACKETS_FAIL);

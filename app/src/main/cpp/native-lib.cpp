@@ -57,7 +57,8 @@ void renderFrame(uint8_t *src_data, int src_lineSize, int width, int height) {
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_example_vatest_NEPlayer_prepareNative(JNIEnv *env, jobject instance, jstring dataSource_) {
+Java_com_example_ne_1player_13_1test_NEPlayer_prepareNative(JNIEnv *env, jobject instance, jstring dataSource_) {
+    // TODO: implement prepareNative()
     const char *dataSource = env->GetStringUTFChars(dataSource_, 0);
 
     javaCallHelper = new JavaCallHelper(javaVM, env, instance);
@@ -68,25 +69,19 @@ Java_com_example_vatest_NEPlayer_prepareNative(JNIEnv *env, jobject instance, js
 
     env->ReleaseStringUTFChars(dataSource_, dataSource);
 }
-
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_example_vatest_NEPlayer_startNative(JNIEnv *env, jobject instance) {
+Java_com_example_ne_1player_13_1test_NEPlayer_startNative(JNIEnv *env, jobject thiz) {
+    // TODO: implement startNative()
     if (ffmpeg) {
         ffmpeg->start();
     }
-
 }
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_example_vatest_NEPlayer_staticTest(JNIEnv *env, jclass type) {
-
-    // TODO
-
-}
-extern "C"
-JNIEXPORT void JNICALL
-Java_com_example_vatest_NEPlayer_setSurfaceNative(JNIEnv *env, jobject instance, jobject surface) {
+Java_com_example_ne_1player_13_1test_NEPlayer_setSurfaceNative(JNIEnv *env, jobject thiz,
+                                                               jobject surface) {
+    // TODO: implement setSurfaceNative()
     pthread_mutex_lock(&mutex);
     //先释放之前的显示窗口
     if (window) {
@@ -96,5 +91,9 @@ Java_com_example_vatest_NEPlayer_setSurfaceNative(JNIEnv *env, jobject instance,
     //创建新的窗口用于视频显示
     window = ANativeWindow_fromSurface(env, surface);
     pthread_mutex_unlock(&mutex);
-
+}
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_example_ne_1player_13_1test_NEPlayer_staticTest(JNIEnv *env, jclass clazz) {
+    // TODO: implement staticTest()
 }
